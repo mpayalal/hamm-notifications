@@ -42,6 +42,13 @@ spec:
             value: "5672"
           - name: RABBITMQ_QUEUE_NOTIFICATIONS
             value: notifications
+          - name: SENDGRID_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: sengrid-api-key
+                key: api-key
+          - name: FROM_EMAIL
+            value: mpayalal@eafit.edu.co
           resources:
             limits:
               cpu: "50m"
