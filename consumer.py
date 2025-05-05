@@ -36,6 +36,7 @@ def handle_deleted_file(variables):
         "file_name": file_name
     }
 
+    logger.info(context)
     return render_template("file_deleted", context)
 
 
