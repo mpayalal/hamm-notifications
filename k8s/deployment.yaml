@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hamm-notifications
+  labels:
+    app: hamm-notifications
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hamm-notifications
+  template:
+    metadata:
+      labels:
+        app: hamm-notifications
+    spec:
+      containers:
+        - name: hamm-notifications
+          image: mpayalal/hamm-notifications:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+          - name: gcp-sa-volume
+            mountPath: /secrets/gcp
+            readOnly: true
+          env:
+          - name: GCP_SA_KEY
+            value: /secrets/gcp/key.json
+          - name: GCP_BUCKET_NAME
+            value: lotso_bucket
+          - name: RABBITMQ_USER
+            value: marciano
+          - name: RABBITMQ_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-rabbitmq
+                key: rabbitmq-password
+          - name: RABBITMQ_HOST
+            value: my-rabbitmq.rabbitmq-ns.svc.cluster.local
+          - name: RABBITMQ_PORT
+            value: "5672"
+          - name: RABBITMQ_QUEUE_NOTIFICATIONS
+            value: notifications
+          resources:
+            limits:
+              cpu: "50m"
+              memory: "100Mi"
+            requests:
+              cpu: "50m"
+              memory: "100Mi"
+      volumes:
+        - name: gcp-sa-volume
+          secret:
+            secretName: gcp-sa
