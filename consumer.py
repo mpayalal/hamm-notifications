@@ -17,13 +17,26 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def handle_send_file(variables):
-    file_path = variables.get("file_name")
-    if file_path:
-        variables["file_url"] = get_presigned_url(file_path)
-    return render_template("file_sent", variables)
+    file_path = variables.get("file_name", "")
+    file_name = file_path.split("/")[-1]  # Solo el nombre del archivo
+    file_url = get_presigned_url(file_path)
+
+    context = {
+        "client_name": variables.get("client_name"),
+        "file_name": file_name,
+        "file_url": file_url
+    }
+    return render_template("file_sent", context)
 
 def handle_deleted_file(variables):
-    return render_template("file_deleted", variables)
+    file_path = variables.get("file_name", "")
+    file_name = file_path.split("/")[-1]
+
+    context = {
+        "file_name": file_name
+    }
+
+    return render_template("file_deleted", context)
 
 
 async def handle_message(message: IncomingMessage):
