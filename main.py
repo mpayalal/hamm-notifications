@@ -1,4 +1,5 @@
+import asyncio
 from consumer import start_consumer
 
 if __name__ == "__main__":
-    start_consumer()
+    asyncio.run(start_consumer())
