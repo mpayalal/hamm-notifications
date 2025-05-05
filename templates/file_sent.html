@@ -14,13 +14,13 @@
     <tr>
       <td style="padding:30px; color:#333333;">
         <p style="font-size:16px;">
-          ¡Hola! <strong>{sender_name}</strong> te ha compartido un archivo llamado <strong>"{file_name}"</strong>.
+          ¡Hola! <strong>{{ client_name }}</strong> te ha compartido un archivo llamado <strong>{{ file_name }}</strong>.
         </p>
         <p style="font-size:16px;">
           Puedes descargarlo usando el siguiente enlace. <strong>¡Tienes 1 hora para hacerlo!</strong>
         </p>
         <p style="text-align:center; margin:30px 0;">
-          <a href="{file_url}" style="background-color:#f2d024; color:#333; padding:12px 20px; text-decoration:none; border-radius:5px; font-weight:bold;">
+          <a href="{{ file_url }}" style="background-color:#f2d024; color:#333; padding:12px 20px; text-decoration:none; border-radius:5px; font-weight:bold;">
             Descargar archivo
           </a>
         </p>
