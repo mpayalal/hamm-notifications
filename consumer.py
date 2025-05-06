@@ -39,6 +39,14 @@ def handle_deleted_file(variables):
     logger.info(context)
     return render_template("file_deleted", context)
 
+def handle_file_authenticated(variables):
+
+    context = {
+        "file_name": variables.get("file_name")
+    }
+
+    logger.info(context)
+    return render_template("file_authenticated", context)
 
 async def handle_message(message: IncomingMessage):
     async with message.process():  # Ack automático
@@ -55,6 +63,10 @@ async def handle_message(message: IncomingMessage):
                 logger.info("Recibido mensaje de delete file")
                 html_content = handle_deleted_file(variables)
                 subject = "Confirmación de archivo eliminado"
+            elif action == "fileAuthenticated": 
+                logger.info("Recibido mensaje de autenticacion")
+                html_content = handle_file_authenticated(variables)
+                subject = "🔐 Documento autenticado"
             else:
                 logger.error(f"Acción desconocida: {action}")
                 return
