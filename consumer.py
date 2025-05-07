@@ -48,6 +48,13 @@ def handle_file_authenticated(variables):
     logger.info(context)
     return render_template("file_authenticated", context)
 
+def handle_register_user(variables):
+    context = {
+        "password_url": variables.get("passwordUrl"),
+    }
+    logger.info(context)
+    return render_template("file_user_register", context)    
+    
 async def handle_message(message: IncomingMessage):
     async with message.process():  # Ack automático
         try:
@@ -67,6 +74,10 @@ async def handle_message(message: IncomingMessage):
                 logger.info("Recibido mensaje de autenticacion")
                 html_content = handle_file_authenticated(variables)
                 subject = "🔐 Documento autenticado"
+            elif action == "register-user":
+                logger.info("Recibido mensaje de registro de usuario")
+                html_content = handle_register_user(variables)
+                subject = "Registro de usuario"
             else:
                 logger.error(f"Acción desconocida: {action}")
                 return
@@ -87,7 +98,7 @@ async def start_consumer():
             password=rabbitmq_pass
         )
         logger.info("Conectado a Rabbit")
-
+        
         channel = await connection.channel()
         await channel.set_qos(prefetch_count=1)
 

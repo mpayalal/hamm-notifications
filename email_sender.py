@@ -5,7 +5,6 @@ from sendgrid.helpers.mail import Mail
 
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 FROM_EMAIL = os.getenv("FROM_EMAIL")
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
