@@ -54,6 +54,16 @@ def handle_register_user(variables):
     }
     logger.info(context)
     return render_template("file_user_register", context)    
+
+def handle_transfer_success(variables):
+    context = {} 
+    logger.info(context)
+    return render_template("transfer_success", context)
+
+def handle_transfer_error(variables):
+    context = {} 
+    logger.info(context)
+    return render_template("transfer_error", context)
     
 async def handle_message(message: IncomingMessage):
     async with message.process():  # Ack automático
@@ -77,7 +87,15 @@ async def handle_message(message: IncomingMessage):
             elif action == "register-user":
                 logger.info("Recibido mensaje de registro de usuario")
                 html_content = handle_register_user(variables)
-                subject = "Registro de usuario"
+                subject = "🤠 ¡Bienvenido, vaquero!"
+            elif action == "transfer_success":
+                logger.info("Recibido mensaje de exito en transferencia")
+                html_content = handle_transfer_success(variables)
+                subject = "Transferencia completada"
+            elif action == "transfer_error":
+                logger.info("Recibido mensaje de error en transferencia")
+                html_content = handle_transfer_error(variables)
+                subject = "😅 ¡Intento fallido!"
             else:
                 logger.error(f"Acción desconocida: {action}")
                 return
